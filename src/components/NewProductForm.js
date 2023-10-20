@@ -10,7 +10,8 @@ const NewProductForm = () => {
         price: ''
     });
 
-    const [formError, setFormError] = useState(''); // State to hold error message
+    const [formError, setFormError] = useState('');
+    const [isSubmitted, setIsSubmitted] = useState(false);  // State to track submission
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -23,7 +24,6 @@ const NewProductForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         
-        // Check if all fields are filled out
         for (let field in formData) {
             if (!formData[field]) {
                 setFormError('Please fill out all fields.');
@@ -31,14 +31,15 @@ const NewProductForm = () => {
             }
         }
         
-        setFormError(''); // Clear error message if any
-        console.log(formData); // Handle form submission logic here
+        setFormError('');
+        setIsSubmitted(true);  // Set the submission state to true when form is valid and submitted
     };
 
     return (
         <div className="form-container">
             <h2>New Product</h2>
             {formError && <p className="error-message">{formError}</p>}
+            {isSubmitted && <p className="success-message">Submitted successfully!</p>} 
             <form onSubmit={handleSubmit}>
                 <input 
                     type="text" 
