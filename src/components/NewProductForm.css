@@ -1,0 +1,43 @@
+/* Container that wraps the entire form */
+.form-container {
+    width: 300px; /* Adjust based on desired width */
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow around the form */
+    background-color: #fff;
+}
+
+/* Style each input field */
+.form-container input[type="text"], .form-container input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px; /* Space between fields */
+    border: 1px solid #ddd;
+    border-radius: 4px; /* Rounded corners */
+}
+
+/* Style buttons */
+.form-container input[type="submit"], .form-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF; /* Blue background */
+    color: #fff; /* White text */
+    cursor: pointer;
+    margin-right: 10px; /* Space between buttons */
+}
+
+.form-container button[type="button"] {
+    background-color: #CCCCCC; /* Gray background for cancel button */
+}
+
+/* Hover effect for buttons */
+.form-container input[type="submit"]:hover, .form-container button:hover {
+    opacity: 0.8;
+}
+
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}
