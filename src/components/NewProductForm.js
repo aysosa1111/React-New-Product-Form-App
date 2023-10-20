@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import './NewProductForm.css';
 
 const NewProductForm = () => {
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         name: '',
         description: '',
         category: '',
         quantity: '',
         price: ''
-    });
+    };
 
+    const [formData, setFormData] = useState(initialFormData);
     const [formError, setFormError] = useState('');
-    const [isSubmitted, setIsSubmitted] = useState(false);  // State to track submission
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -21,25 +22,50 @@ const NewProductForm = () => {
         }));
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        
+    const validateFormData = () => {
         for (let field in formData) {
             if (!formData[field]) {
-                setFormError('Please fill out all fields.');
-                return;
+                return 'Please fill out all fields.';
             }
         }
-        
+
+        if (formData.quantity < 0 || formData.price < 0) {
+            return 'Quantity and Price cannot be negative.';
+        }
+
+        const regex = /^[a-zA-Z0-9 ]{3,50}$/;  // Alphanumeric, 3 to 50 characters
+        if (!regex.test(formData.name) || !regex.test(formData.description) || !regex.test(formData.category)) {
+            return 'Name, Description, and Category should be alphanumeric and between 3 to 50 characters.';
+        }
+
+        return '';  // No validation error found
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const validationError = validateFormData();
+        if (validationError) {
+            setFormError(validationError);
+            return;
+        }
+
         setFormError('');
-        setIsSubmitted(true);  // Set the submission state to true when form is valid and submitted
+        setIsSubmitted(true);
+        setFormData(initialFormData);  // Reset form fields
+    };
+
+    const handleCancel = () => {
+        setFormData(initialFormData);  // Reset form fields
+        setFormError('');
+        setIsSubmitted(false);
     };
 
     return (
         <div className="form-container">
             <h2>New Product</h2>
             {formError && <p className="error-message">{formError}</p>}
-            {isSubmitted && <p className="success-message">Submitted successfully!</p>} 
+            {isSubmitted && <p className="success-message">Submitted successfully!</p>}
             <form onSubmit={handleSubmit}>
                 <input 
                     type="text" 
@@ -77,7 +103,7 @@ const NewProductForm = () => {
                     onChange={handleChange}
                 />
                 <input type="submit" value="SUBMIT" />
-                <button type="button">CANCEL</button>
+                <button type="button" onClick={handleCancel}>CANCEL</button>
             </form>
         </div>
     );
